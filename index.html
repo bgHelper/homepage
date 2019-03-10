@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
@@ -16,13 +17,16 @@
 	</header>
 	<div class="mui-content">
 		<div class="mui-content-padded">
-			<!--<button id="gameList" class="mui-btn mui-btn-block mui-btn-primary">游戏列表</button>-->
-			<button id="diceBag" class="mui-btn mui-btn-block">骰子袋</button>
+			<!--<button id="desktop" class="mui-btn mui-btn-block mui-btn-outlined mui-btn-primary">布道</button>-->
+			<button id="solo" class="mui-btn mui-btn-block mui-btn-outlined mui-btn-danger">摸鱼</button>
+			<!--<button id="desktop2" class="mui-btn mui-btn-block mui-btn-outlined mui-btn-success">学习</button>-->
+			<button id="diceBag" class="mui-btn mui-btn-block mui-btn-outlined">骰子</button>
 		</div>
 	</div>
 	<script src="./js/mui.min.js"></script>
 	<script>
-		//document.getElementById('gameList').addEventListener("tap", function(event) {location="./gameList.html";});
+		document.getElementById('solo').addEventListener("tap", function(event) {location="./desktop.html?mode=solo";});
+		//document.getElementById('gameDesktopPeer').addEventListener("tap", function(event) {location="./gameDesktopPeer.html";});
 		document.getElementById('diceBag').addEventListener("tap", function(event) {location="./diceBag.html";});
     </script>
 </body>

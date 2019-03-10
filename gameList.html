@@ -4,32 +4,115 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<meta name="apple-mobile-web-app-capable", content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<link rel="shortcut icon" href="/img/favicon.ico", type="image/x-icon">
-	<link rel="stylesheet" href="/css/mui.min.css">
+	<link rel="shortcut icon" href="./img/favicon.ico", type="image/x-icon">
+	<link rel="stylesheet" href="./css/mui.min.css">
+	<script src="./js/vue.js"></script>
+	<style>
+		.opr-btn {
+			width: 45%;
+			margin-top: 10px;
+			margin-left: 2%;
+			margin-right: 2%;
+		}
+		.add-btn {
+			width: 21%;
+			margin-top: 10px;
+			margin-left: 2%;
+			margin-right: 2%;
+		}
+		.result-btn {
+			width: 30%;
+			margin-top: 10px;
+			margin-left: 1.5%;
+			margin-right: 1.5%;
+		}
+		.reslut-sum {
+			margin-left: 10%;
+		}
+	</style>
 	<title>桌游助手</title>
 </head>
 <body>
-	<div id="header" class="mui-bar mui-bar-nav">
-		<a class="mui-action-back mui-icon mui-icon-back mui-pull-left"></a>
-		<h1 class="mui-title">骰子袋</h1>
-		<a class="mui-icon mui-icon-home mui-pull-right" href="/"></a>
-	</div>
-	<div class="mui-content">
-		<block id="contet">
+	<div id="app">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-back mui-pull-left"></a>
+			<h1 class="mui-title">骰子袋</h1>
+			<a class="mui-icon mui-icon-home mui-pull-right" href="./"></a>
+		</header>
+		<div class="mui-content">
 			<div class="mui-content-padded">
-				<button id="gameList" class="mui-btn mui-btn-block mui-btn-primary">游戏列表</button>
-				<button id="diceBag" class="mui-btn mui-btn-block">骰子袋</button>
+				<button type="button" class="mui-btn opr-btn mui-btn-primary" v-on:click="clearValue">
+					清空结果
+				</button>
+				<button type="button" class="mui-btn opr-btn mui-btn-danger" v-on:click="clearDice">
+					清空骰子
+				</button>
 			</div>
-		</block>
+			<div class="mui-content-padded">
+				<h5>添加骰子：</h5>
+				<button type="button" class="mui-btn add-btn" v-for="d in dbutton" v-on:click="addDie(d)">
+					D{{d}}
+				</button>
+			</div>
+			<div class="mui-content-padded">
+				<h5>结果总和：</h5>
+				<h3 class="reslut-sum">{{sum}}</h3> 
+			</div>
+			<div class="mui-content-padded">
+				<h5>详细结果：</h5>
+				<button type="button" class="mui-btn result-btn" v-for="d in dice">
+					{{d.value}} / {{d.range}}
+				</button>
+			</div>
+		</div>
+		<nav class="mui-bar mui-bar-tab" v-on:click="rollAllDice">
+			<h3 id="roll" class="mui-tab-item mui-active" >
+				摇
+			</h3>
+		</nav>
 	</div>
-	<script src="/js/mui.min.js"></script>
+	<script src="./js/mui.min.js"></script>
 	<script>
-		document.getElementById('gameList').addEventListener("tap", function(event) {
-			location="/gameList";
+		mui.init();
+		mui.ready(function() {
+			var app = new Vue({
+				el: '#app',
+				data: {
+					sum : 0,
+					dbutton : [4,6,8,10,12,20,100],
+					dice : [],
+				},
+				methods: {
+					rollAllDice: function () {
+						this.sum = 0;
+						for (key in this.dice) {
+							var die = this.dice[key];
+							var val = Math.floor(die.range * Math.random() + die.base);
+							die.value = val;
+							this.sum += val;
+						}
+					},
+					clearValue: function () {
+						this.sum = 0;
+						for (key in this.dice) {
+							var die = this.dice[key];
+							die.value = 0;
+						}
+					},
+					clearDice: function () {
+						this.sum = 0;
+						this.dice = [];
+					},
+					addDie : function(value) {
+						this.dice.push({
+							base : 1,
+							range : value,
+							value : 0,
+						});
+					}
+				},
+			});
 		});
-		document.getElementById('diceBag').addEventListener("tap", function(event) {
-			location="/diceBag";
-		});
-    </script>
+	</script>
 </body>
 </html>
