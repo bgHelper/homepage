@@ -226,11 +226,26 @@ function gameInit (gameObject, assertPath, config) {
 
 	var scene = {
 		preload: function(){
-			 this.load.spritesheet('card1', assertPath + '001.png', { frameWidth: cardWidth, frameHeight: cardHeight});
-			 this.load.spritesheet('card2', assertPath + '002.png', { frameWidth: cardWidth, frameHeight: cardHeight});
-			 this.load.spritesheet('card3', assertPath + '003.png', { frameWidth: cardWidth, frameHeight: cardHeight});
-			 this.load.spritesheet('card4', assertPath + '004.png', { frameWidth: cardWidth, frameHeight: cardHeight});
-			 this.load.spritesheet('action', assertPath + 'action.png', { frameWidth: 60, frameHeight: 60});
+			loaderFrame(this);
+
+
+			/*
+			var progress = this.add.graphics();
+			this.load.on('progress', function (value) {
+				progress.clear();
+				progress.fillStyle(0xffffff, 1);
+				progress.fillRect(0, gameObject.canvas.height / 2 -30, gameObject.canvas.width * value, 60);
+			});
+			this.load.on('complete', function () {
+				progress.destroy();
+			});
+*/
+
+			this.load.spritesheet('card1', assertPath + '001.png', { frameWidth: cardWidth, frameHeight: cardHeight});
+			this.load.spritesheet('card2', assertPath + '002.png', { frameWidth: cardWidth, frameHeight: cardHeight});
+			this.load.spritesheet('card3', assertPath + '003.png', { frameWidth: cardWidth, frameHeight: cardHeight});
+			this.load.spritesheet('card4', assertPath + '004.png', { frameWidth: cardWidth, frameHeight: cardHeight});
+			this.load.spritesheet('action', assertPath + 'action.png', { frameWidth: 60, frameHeight: 60});
 		},
 		create: function(){
 			gameData.bDeck = [];
@@ -295,7 +310,6 @@ function gameInit (gameObject, assertPath, config) {
 					var id = gameObject.data.get('id');
 					var ac = gameObject.data.get('ac');
 					var s = gameData.bDeck.splice(id, 1)[0];
-					console.log(s);					
 					if (ac == 0) {
 						s.rotation += 1;
 						gameData.bRes.push(s);
@@ -315,12 +329,11 @@ function gameInit (gameObject, assertPath, config) {
 					}
 
 					gameData.bDeck.push(s);
-					//gameData.bDeck.unshift(s);
 					updateCards();
 				}
 			}, this);
 
-			this.input.on('gameobjectup', function (pointer, gameObject) {
+			this.input.on('pointerup', function (pointer, gameObject) {
 				updateCard(cards[6]);
 				updateCard(cards[7]);
 			}, this);
@@ -328,6 +341,5 @@ function gameInit (gameObject, assertPath, config) {
 		update: function(){},
 	};
 
-	game.scene.add("main", scene, true);
+gameObject.scene.add("111", scene, true);
 }
-
