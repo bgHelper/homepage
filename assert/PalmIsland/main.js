@@ -1,4 +1,4 @@
-function gameInit (gameObject, assertPath, config) {
+var gameInit = function(gameObject) {
 	var cards = [];
 	var actions = [];
 	var cardWidth = 300;
@@ -111,14 +111,14 @@ function gameInit (gameObject, assertPath, config) {
 
 	var gameData = {};
 
-	function onResize() {
+	function onResize(sc) {
 		var sp;
 		var width = gameObject.canvas.width;
 		var height = gameObject.canvas.height;
 
 		var showHeight = cardHeight - cardWidth;
 
-		if (width < height) {
+		//if (width < height) {
 			var ratioX = width / (cardWidth + 1.2 * cardHeight);
 			var ratioY = height / (3 * cardHeight);
 			var ratio = Math.min(ratioX, ratioY);
@@ -133,8 +133,10 @@ function gameInit (gameObject, assertPath, config) {
 			var baseXR = base1X + ratio * (cardWidth - cardHeight) / 2;
 			var baseYR = base1Y + ratio * (cardHeight - cardWidth) / 2;
 			var stepR = ratio * showHeight;
-		} else {
-		}
+		//} else {
+		//}
+
+		//sc.scale.setZoom(0.1);
 
 		for (var id = 0; id < 4; id ++) {
 			sp = cards[id];
@@ -206,6 +208,8 @@ function gameInit (gameObject, assertPath, config) {
 		updateCard(cards[5], gameData.bDeck[1]);
 		updateCard(cards[6]);
 		updateCard(cards[7]);
+
+		//cards[6].setTexture('card','B1A');
 	}
 
 	function randDeck(deck) {
@@ -226,28 +230,23 @@ function gameInit (gameObject, assertPath, config) {
 
 	var scene = {
 		preload: function(){
-			loaderFrame(this);
+			loaderSet(this, "棕榈岛");
 
+			this.load.spritesheet('card1', '001.png', { frameWidth: cardWidth, frameHeight: cardHeight});
+			this.load.spritesheet('card2', '002.png', { frameWidth: cardWidth, frameHeight: cardHeight});
+			this.load.spritesheet('card3', '003.png', { frameWidth: cardWidth, frameHeight: cardHeight});
+			this.load.spritesheet('card4', '004.png', { frameWidth: cardWidth, frameHeight: cardHeight});
 
-			/*
-			var progress = this.add.graphics();
-			this.load.on('progress', function (value) {
-				progress.clear();
-				progress.fillStyle(0xffffff, 1);
-				progress.fillRect(0, gameObject.canvas.height / 2 -30, gameObject.canvas.width * value, 60);
-			});
-			this.load.on('complete', function () {
-				progress.destroy();
-			});
-*/
+			this.load.spritesheet('action', 'action.png', { frameWidth: 60, frameHeight: 60});
 
-			this.load.spritesheet('card1', assertPath + '001.png', { frameWidth: cardWidth, frameHeight: cardHeight});
-			this.load.spritesheet('card2', assertPath + '002.png', { frameWidth: cardWidth, frameHeight: cardHeight});
-			this.load.spritesheet('card3', assertPath + '003.png', { frameWidth: cardWidth, frameHeight: cardHeight});
-			this.load.spritesheet('card4', assertPath + '004.png', { frameWidth: cardWidth, frameHeight: cardHeight});
-			this.load.spritesheet('action', assertPath + 'action.png', { frameWidth: 60, frameHeight: 60});
+			//this.load.json('cards', 'cards.json');
+
+			//this.load.multiatlas('card', ['CA001.json', 'CB001.json'])
+			//this.load.atlas('card', 'CA001.png', 'CA001.json')
+			
 		},
 		create: function(){
+			//console.log(this.cache.json.get('cards'))
 			gameData.bDeck = [];
 			gameData.bRes = [];
 			gameData.bSel = [0, 0, 0, 0];
@@ -288,7 +287,7 @@ function gameInit (gameObject, assertPath, config) {
 				}
 			}
 
-			onResize();
+			onResize(this);
 			updateCards();
 
 			this.input.on('gameobjectdown', function (pointer, gameObject) {
@@ -341,5 +340,5 @@ function gameInit (gameObject, assertPath, config) {
 		update: function(){},
 	};
 
-gameObject.scene.add("111", scene, true);
+	gameObject.scene.add("main", scene, true);
 }

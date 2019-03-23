@@ -50,34 +50,80 @@ function getHttpRequest(url, callback) {
 	xmlhttp.send();
 }
 
-function gameLoader (gameObject, assertName) {
-	var assertPath = "./assert/"+assertName+"/"
+function setTitle(name) {
+	document.getElementsByTagName("title")[0].text = name;
+}
 
-	var loaderFrame = function(sc) {
-		var progress = sc.add.graphics();
-		sc.load.on('progress', function (value) {
-			progress.clear();
-			progress.fillStyle(0xffffff, 1);
-			progress.fillRect(0, gameObject.canvas.height / 2 -30, gameObject.canvas.width * value, 60);
-		});
+function gameCreater() {
+	var gameObject = new Phaser.Game({
+		type: Phaser.AUTO,
+		width: "100%",
+		height: "100%",
+	});
 
-		sc.load.on('complete', function () {
-			progress.destroy();
-		});
-	}
+	var backgroundScene = {
+		create: function() {
+			this.add.graphics().fillStyle(0xffffff, 1).fillRect(0, 0, gameObject.canvas.width, gameObject.canvas.height);
+		},
+	};
 
-	var scene = {
+	gameObject.scene.add("background", backgroundScene, true);
+
+	var loadScene = {
 		preload: function(){
-			this.add.text(gameObject.canvas.width / 2, gameObject.canvas.height / 2, "Load Script...")
-			.setOrigin(0.5).setColor("#000000").setFontSize(gameObject.canvas.width / 10);
+			var title = this.add.text(gameObject.canvas.width / 2 , gameObject.canvas.height / 2 - 40, "加载中...")
+			.setOrigin(0.5, 1).setColor("#000000").setFontSize(gameObject.canvas.width / 10);
 
-			getHttpRequest(assertPath + 'main.js', function(xmlHttp) {
-				eval(xmlHttp.responseText);
-				gameInit(gameObject, assertPath);
-				gameObject.scene.remove("loader");
+			this.events.on("setTitle", function(gameName) {
+				setTitle(gameName);
+				title.setText(gameName);
+			});
+
+			var progress = this.add.graphics();
+			this.events.on("loadProcess", function(value) {
+				//console.log(value);
+				progress.clear();
+				progress.fillStyle(0x000000, 1);
+				progress.fillRect(0, gameObject.canvas.height / 2 - 30, gameObject.canvas.width * value, 60);
 			});
 		},
 	};
 
-	gameObject.scene.add("loader", scene, true);
+	gameObject.scene.add("loader", loadScene, true);
+	return gameObject;
+}
+
+function gameLoader (gameObject, gameId) {
+	var assertPath = "./assert/"+gameId;
+	var title;
+
+	var loaderSet = function(sc, gameName) {
+		gameName = gameName || "";
+		gameObject.scene.wake("loader");
+		var lc = gameObject.scene.getScene("loader");
+		lc.events.emit("setTitle", gameName);
+		sc.load.on('progress', function (value) {
+			lc.events.emit("loadProcess", value);
+		});
+		sc.load.on('complete', function () {
+			gameObject.scene.sleep("loader");
+		});
+
+		sc.load.setPath(assertPath);
+	}
+
+	getHttpRequest(assertPath + '/main.js', function(xmlHttp) {
+		eval(xmlHttp.responseText);
+		gameInit(gameObject);
+	});
+}
+
+function gameResize(gameObject) {
+	//gameObject.canvas.width = document.documentElement.clientWidth;
+	//gameObject.canvas.height = document.documentElement.clientHeight;
+
+	//for (var key in gameObject.scene.scenes) {
+	//	var sc = gameObject.scene.scenes[key];
+	//	sc.events.emit("resize");
+	//}
 }

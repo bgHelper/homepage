@@ -17,14 +17,16 @@
 	<script>
 	setFullpage();
 	var qRet = getQueryObject();
-	var game = new Phaser.Game({
-		type: Phaser.AUTO,
-		width: "100%",
-		height: "100%",
-		backgroundColor: '#66CCFF',
-	});
+	var gameId = qRet.gameId || "GMall";
+	var gameMode = qRet.mode || "solo";
 
-	gameLoader(game, qRet.game, "棕榈岛");
+	var gameObject = gameCreater();
+	gameLoader(gameObject, gameId);
+
+	window.onresize = function() {
+		console.log("aaa");
+		gameResize(gameObject);
+	}
 	</script>
 </body>
 </html>

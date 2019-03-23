@@ -17,7 +17,7 @@
 	</header>
 	<div class="mui-content">
 		<div class="mui-content-padded">
-			<!--<button id="desktop" class="mui-btn mui-btn-block mui-btn-outlined mui-btn-primary">布道</button>-->
+			<button id="desktop" class="mui-btn mui-btn-block mui-btn-outlined mui-btn-primary">布道</button>
 			<button id="solo" class="mui-btn mui-btn-block mui-btn-outlined mui-btn-danger">摸鱼</button>
 			<!--<button id="desktop2" class="mui-btn mui-btn-block mui-btn-outlined mui-btn-success">学习</button>-->
 			<button id="diceBag" class="mui-btn mui-btn-block mui-btn-outlined">骰子</button>
@@ -26,8 +26,9 @@
 	<script src="./js/mui.min.js"></script>
 	<script>
 		//setFullpage();
-		document.getElementById('solo').addEventListener("tap", function(event) {location="./desktop.html?game=PalmIsland";});
-		//document.getElementById('gameDesktopPeer').addEventListener("tap", function(event) {location="./gameDesktopPeer.html";});
+		document.getElementById('desktop').addEventListener("tap", function(event) {location="./desktop.html?mode=wrLink";});
+		document.getElementById('solo').addEventListener("tap", function(event) {location="./desktop.html";});
+		//document.getElementById('desktop').addEventListener("tap", function(event) {location="./gameDesktopPeer.html";});
 		document.getElementById('diceBag').addEventListener("tap", function(event) {location="./diceBag.html";});
     </script>
 </body>
