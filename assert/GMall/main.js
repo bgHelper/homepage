@@ -26,6 +26,9 @@ var gameInit = function(gameObject) {
 
 			for(id in list) {
 				var item = list[id];
+				if (item.hide) {
+					continue;
+				}
 				var sp = this.add.rectangle(width/2, baseY, 0.8 * width, 0.8 * stepY, 0x707070);
 				sp.setInteractive();
 				/*

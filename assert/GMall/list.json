@@ -1,7 +1,25 @@
 {
 "PalmIsland" : {
-	"name" : "棕榈岛"
-},"TicTacToe" : {
-	"name" : "井字棋"
+	"name" : "棕榈岛",
+	"solo" : true
+},
+"Gobblet" : {
+	"name" : "棋迹连连",
+	"heatseat" : true
+},
+"Onitama" : {
+	"name" : "形意棋",
+	"hide" : true,
+	"heatseat" : true
+},
+"Hive" : {
+	"name" : "昆虫棋",
+	"hide" : true,
+	"heatseat" : true
+},
+"TicTacToe" : {
+	"name" : "井字棋",
+	"hide" : true,
+	"heatseat" : true
 }
 }

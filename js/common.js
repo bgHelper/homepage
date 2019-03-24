@@ -57,17 +57,22 @@ function setTitle(name) {
 function gameCreater() {
 	var gameObject = new Phaser.Game({
 		type: Phaser.AUTO,
-		width: "100%",
-		height: "100%",
+		//width: "100%",		
+		//height: "100%",
+		width : document.documentElement.clientWidth,
+		height : document.documentElement.clientHeight,
+		backgroundColor : 0xd6ecf0,
 	});
 
+	/*
 	var backgroundScene = {
 		create: function() {
-			this.add.graphics().fillStyle(0xffffff, 1).fillRect(0, 0, gameObject.canvas.width, gameObject.canvas.height);
+			this.add.graphics().fillStyle(0xd6ecf0, 1).fillRect(0, 0, gameObject.canvas.width, gameObject.canvas.height);
 		},
 	};
 
 	gameObject.scene.add("background", backgroundScene, true);
+	*/
 
 	var loadScene = {
 		preload: function(){
@@ -81,7 +86,6 @@ function gameCreater() {
 
 			var progress = this.add.graphics();
 			this.events.on("loadProcess", function(value) {
-				//console.log(value);
 				progress.clear();
 				progress.fillStyle(0x000000, 1);
 				progress.fillRect(0, gameObject.canvas.height / 2 - 30, gameObject.canvas.width * value, 60);

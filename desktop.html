@@ -15,7 +15,7 @@
 </head>
 <body>
 	<script>
-	setFullpage();
+	//setFullpage();
 	var qRet = getQueryObject();
 	var gameId = qRet.gameId || "GMall";
 	var gameMode = qRet.mode || "solo";
@@ -24,7 +24,6 @@
 	gameLoader(gameObject, gameId);
 
 	window.onresize = function() {
-		console.log("aaa");
 		gameResize(gameObject);
 	}
 	</script>
